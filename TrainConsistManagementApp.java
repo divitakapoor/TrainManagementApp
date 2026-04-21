@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class TrainApp {
+public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
@@ -19,20 +19,35 @@ public class TrainApp {
         System.out.println("\nPassenger bogies added:");
         System.out.println(bogies);
 
-        // ---------------- UC5 START ----------------
-
-        // LinkedHashSet → maintains order + uniqueness
+        // UC5 (LinkedHashSet for order + uniqueness)
         Set<String> bogieIds = new LinkedHashSet<>();
-
         addBogie(bogieIds, "BG101");
         addBogie(bogieIds, "BG102");
         addBogie(bogieIds, "BG103");
-        addBogie(bogieIds, "BG102"); // duplicate
 
-        System.out.println("\nBogie IDs (Insertion Order Preserved):");
+        System.out.println("\nBogie IDs:");
         System.out.println(bogieIds);
 
-        // ---------------- UC5 END ----------------
+        // ---------------- UC6 START ----------------
+
+        // Map → Bogie ID to Capacity
+        Map<String, Integer> bogieCapacity = new HashMap<>();
+
+        // Adding capacity data
+        bogieCapacity.put("BG101", 72);  // Sleeper
+        bogieCapacity.put("BG102", 60);  // AC Chair
+        bogieCapacity.put("BG103", 24);  // First Class
+
+        System.out.println("\nBogie Capacity Details:");
+        for (String id : bogieCapacity.keySet()) {
+            System.out.println("Bogie ID: " + id + " → Capacity: " + bogieCapacity.get(id));
+        }
+
+        // Access specific bogie info
+        String searchId = "BG102";
+        System.out.println("\nCapacity of " + searchId + ": " + bogieCapacity.get(searchId));
+
+        // ---------------- UC6 END ----------------
     }
 
     public static void addBogie(Set<String> bogieIds, String id) {
