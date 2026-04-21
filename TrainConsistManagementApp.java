@@ -6,55 +6,37 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // UC1
-        List<String> bogies = new ArrayList<>();
-        System.out.println("Train consist initialized.");
-        System.out.println("Initial number of bogies: " + bogies.size());
-
-        // UC2
-        bogies.add("Sleeper Bogie");
-        bogies.add("AC Chair Bogie");
-        bogies.add("First Class Bogie");
-
-        System.out.println("\nPassenger bogies added:");
-        System.out.println(bogies);
-
-        // UC5 (LinkedHashSet for order + uniqueness)
-        Set<String> bogieIds = new LinkedHashSet<>();
-        addBogie(bogieIds, "BG101");
-        addBogie(bogieIds, "BG102");
-        addBogie(bogieIds, "BG103");
-
-        System.out.println("\nBogie IDs:");
-        System.out.println(bogieIds);
-
-        // ---------------- UC6 START ----------------
-
-        // Map → Bogie ID to Capacity
+        // UC6 (Map with capacity)
         Map<String, Integer> bogieCapacity = new HashMap<>();
 
-        // Adding capacity data
         bogieCapacity.put("BG101", 72);  // Sleeper
-        bogieCapacity.put("BG102", 60);  // AC Chair
+        bogieCapacity.put("BG102", 56);  // AC Chair
         bogieCapacity.put("BG103", 24);  // First Class
 
-        System.out.println("\nBogie Capacity Details:");
-        for (String id : bogieCapacity.keySet()) {
-            System.out.println("Bogie ID: " + id + " → Capacity: " + bogieCapacity.get(id));
+        System.out.println("\nOriginal Bogie Data:");
+        System.out.println(bogieCapacity);
+
+        // ---------------- UC7 START ----------------
+
+        // Convert Map to List
+        List<Map.Entry<String, Integer>> bogieList =
+                new ArrayList<>(bogieCapacity.entrySet());
+
+        // Sort using Comparator (by capacity descending)
+        bogieList.sort(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> b1,
+                               Map.Entry<String, Integer> b2) {
+                return b2.getValue() - b1.getValue(); // Descending
+            }
+        });
+
+        System.out.println("\nBogies Sorted by Capacity (High → Low):");
+        for (Map.Entry<String, Integer> entry : bogieList) {
+            System.out.println("Bogie ID: " + entry.getKey()
+                    + " → Capacity: " + entry.getValue());
         }
 
-        // Access specific bogie info
-        String searchId = "BG102";
-        System.out.println("\nCapacity of " + searchId + ": " + bogieCapacity.get(searchId));
-
-        // ---------------- UC6 END ----------------
-    }
-
-    public static void addBogie(Set<String> bogieIds, String id) {
-        if (bogieIds.add(id)) {
-            System.out.println("Bogie ID " + id + " added.");
-        } else {
-            System.out.println("Duplicate Bogie ID " + id + " rejected!");
-        }
+        // ---------------- UC7 END ----------------
     }
 }
