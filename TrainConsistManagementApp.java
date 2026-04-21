@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TrainConsistManagementApp {
 
@@ -8,16 +10,12 @@ public class TrainConsistManagementApp {
         // Welcome Message
         System.out.println("=== Train Consist Management App ===");
 
-        // Initialize empty list of bogies
+        // UC1: Initialize
         List<String> bogies = new ArrayList<>();
-
-        // UC1 Output
         System.out.println("Train consist initialized.");
         System.out.println("Initial number of bogies: " + bogies.size());
 
-        // ---------------- UC2 START ----------------
-
-        // Adding passenger bogies
+        // ---------------- UC2 ----------------
         bogies.add("Sleeper Bogie");
         bogies.add("AC Chair Bogie");
         bogies.add("First Class Bogie");
@@ -26,21 +24,27 @@ public class TrainConsistManagementApp {
         System.out.println("Total number of bogies: " + bogies.size());
         System.out.println("Current Train Consist: " + bogies);
 
-        // Checking if a bogie exists
-        String checkBogie = "AC Chair Bogie";
-        if (bogies.contains(checkBogie)) {
-            System.out.println(checkBogie + " is present in the train.");
+        // ---------------- UC3 START ----------------
+
+        // Set to track unique bogie IDs
+        Set<String> bogieIds = new HashSet<>();
+
+        // Adding bogie IDs
+        addBogieId(bogieIds, "BG101");
+        addBogieId(bogieIds, "BG102");
+        addBogieId(bogieIds, "BG101"); // Duplicate (should be rejected)
+
+        System.out.println("\nUnique Bogie IDs: " + bogieIds);
+
+        // ---------------- UC3 END ----------------
+    }
+
+    // Method to safely add bogie IDs
+    public static void addBogieId(Set<String> bogieIds, String id) {
+        if (bogieIds.add(id)) {
+            System.out.println("Bogie ID " + id + " added successfully.");
         } else {
-            System.out.println(checkBogie + " is NOT present in the train.");
+            System.out.println("Duplicate Bogie ID " + id + " not allowed!");
         }
-
-        // Removing a bogie
-        bogies.remove("Sleeper Bogie");
-
-        System.out.println("\nAfter removing Sleeper Bogie:");
-        System.out.println("Total number of bogies: " + bogies.size());
-        System.out.println("Updated Train Consist: " + bogies);
-
-        // ---------------- UC2 END ----------------
     }
 }
