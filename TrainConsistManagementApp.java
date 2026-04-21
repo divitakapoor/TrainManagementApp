@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class TrainConsistManagementApp {
+public class TrainApp {
 
     public static void main(String[] args) {
 
@@ -19,46 +19,27 @@ public class TrainConsistManagementApp {
         System.out.println("\nPassenger bogies added:");
         System.out.println(bogies);
 
-        // UC3
-        Set<String> bogieIds = new HashSet<>();
+        // ---------------- UC5 START ----------------
+
+        // LinkedHashSet → maintains order + uniqueness
+        Set<String> bogieIds = new LinkedHashSet<>();
+
         addBogie(bogieIds, "BG101");
         addBogie(bogieIds, "BG102");
-        addBogie(bogieIds, "BG101"); // duplicate
+        addBogie(bogieIds, "BG103");
+        addBogie(bogieIds, "BG102"); // duplicate
 
-        // ---------------- UC4 START ----------------
+        System.out.println("\nBogie IDs (Insertion Order Preserved):");
+        System.out.println(bogieIds);
 
-        // LinkedList to maintain order of train
-        LinkedList<String> trainSequence = new LinkedList<>();
-
-        // Add bogies in real train order
-        addToTrain(trainSequence, bogieIds, "BG101");
-        addToTrain(trainSequence, bogieIds, "BG102");
-
-        // Adding special positions
-        trainSequence.addFirst("Engine");
-        trainSequence.addLast("Guard Coach");
-
-        System.out.println("\nTrain Sequence (Ordered):");
-        System.out.println(trainSequence);
-
-        // ---------------- UC4 END ----------------
+        // ---------------- UC5 END ----------------
     }
 
-    // UC3 helper
     public static void addBogie(Set<String> bogieIds, String id) {
         if (bogieIds.add(id)) {
             System.out.println("Bogie ID " + id + " added.");
         } else {
             System.out.println("Duplicate Bogie ID " + id + " rejected!");
-        }
-    }
-
-    // UC4 helper
-    public static void addToTrain(LinkedList<String> train, Set<String> ids, String id) {
-        if (ids.contains(id)) {
-            train.add(id);
-        } else {
-            System.out.println("Invalid Bogie ID " + id + " (not registered)");
         }
     }
 }
