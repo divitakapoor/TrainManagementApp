@@ -1,50 +1,64 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // Welcome Message
         System.out.println("=== Train Consist Management App ===");
 
-        // UC1: Initialize
+        // UC1
         List<String> bogies = new ArrayList<>();
         System.out.println("Train consist initialized.");
         System.out.println("Initial number of bogies: " + bogies.size());
 
-        // ---------------- UC2 ----------------
+        // UC2
         bogies.add("Sleeper Bogie");
         bogies.add("AC Chair Bogie");
         bogies.add("First Class Bogie");
 
-        System.out.println("\nAfter adding passenger bogies:");
-        System.out.println("Total number of bogies: " + bogies.size());
-        System.out.println("Current Train Consist: " + bogies);
+        System.out.println("\nPassenger bogies added:");
+        System.out.println(bogies);
 
-        // ---------------- UC3 START ----------------
-
-        // Set to track unique bogie IDs
+        // UC3
         Set<String> bogieIds = new HashSet<>();
+        addBogie(bogieIds, "BG101");
+        addBogie(bogieIds, "BG102");
+        addBogie(bogieIds, "BG101"); // duplicate
 
-        // Adding bogie IDs
-        addBogieId(bogieIds, "BG101");
-        addBogieId(bogieIds, "BG102");
-        addBogieId(bogieIds, "BG101"); // Duplicate (should be rejected)
+        // ---------------- UC4 START ----------------
 
-        System.out.println("\nUnique Bogie IDs: " + bogieIds);
+        // LinkedList to maintain order of train
+        LinkedList<String> trainSequence = new LinkedList<>();
 
-        // ---------------- UC3 END ----------------
+        // Add bogies in real train order
+        addToTrain(trainSequence, bogieIds, "BG101");
+        addToTrain(trainSequence, bogieIds, "BG102");
+
+        // Adding special positions
+        trainSequence.addFirst("Engine");
+        trainSequence.addLast("Guard Coach");
+
+        System.out.println("\nTrain Sequence (Ordered):");
+        System.out.println(trainSequence);
+
+        // ---------------- UC4 END ----------------
     }
 
-    // Method to safely add bogie IDs
-    public static void addBogieId(Set<String> bogieIds, String id) {
+    // UC3 helper
+    public static void addBogie(Set<String> bogieIds, String id) {
         if (bogieIds.add(id)) {
-            System.out.println("Bogie ID " + id + " added successfully.");
+            System.out.println("Bogie ID " + id + " added.");
         } else {
-            System.out.println("Duplicate Bogie ID " + id + " not allowed!");
+            System.out.println("Duplicate Bogie ID " + id + " rejected!");
+        }
+    }
+
+    // UC4 helper
+    public static void addToTrain(LinkedList<String> train, Set<String> ids, String id) {
+        if (ids.contains(id)) {
+            train.add(id);
+        } else {
+            System.out.println("Invalid Bogie ID " + id + " (not registered)");
         }
     }
 }
