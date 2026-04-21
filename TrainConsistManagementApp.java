@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
 
@@ -6,37 +7,32 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // UC6 (Map with capacity)
+        // UC6 data (Map)
         Map<String, Integer> bogieCapacity = new HashMap<>();
 
         bogieCapacity.put("BG101", 72);  // Sleeper
         bogieCapacity.put("BG102", 56);  // AC Chair
         bogieCapacity.put("BG103", 24);  // First Class
+        bogieCapacity.put("BG104", 80);  // Extra High Capacity
 
-        System.out.println("\nOriginal Bogie Data:");
+        System.out.println("\nAll Bogies:");
         System.out.println(bogieCapacity);
 
-        // ---------------- UC7 START ----------------
+        // ---------------- UC8 START ----------------
 
-        // Convert Map to List
-        List<Map.Entry<String, Integer>> bogieList =
-                new ArrayList<>(bogieCapacity.entrySet());
+        // Filter bogies with capacity >= 50
+        List<Map.Entry<String, Integer>> highCapacityBogies =
+                bogieCapacity.entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue() >= 50)
+                        .collect(Collectors.toList());
 
-        // Sort using Comparator (by capacity descending)
-        bogieList.sort(new Comparator<Map.Entry<String, Integer>>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> b1,
-                               Map.Entry<String, Integer> b2) {
-                return b2.getValue() - b1.getValue(); // Descending
-            }
-        });
-
-        System.out.println("\nBogies Sorted by Capacity (High → Low):");
-        for (Map.Entry<String, Integer> entry : bogieList) {
+        System.out.println("\nHigh Capacity Bogies (>= 50 seats):");
+        for (Map.Entry<String, Integer> entry : highCapacityBogies) {
             System.out.println("Bogie ID: " + entry.getKey()
                     + " → Capacity: " + entry.getValue());
         }
 
-        // ---------------- UC7 END ----------------
+        // ---------------- UC8 END ----------------
     }
 }
